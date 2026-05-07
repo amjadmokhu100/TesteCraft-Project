@@ -15,10 +15,10 @@ The project focuses on creating a smooth and visually appealing user experience 
 - 🌐 Clean and organized layout
 
 🛠️ Technologies Used
-HTML5
-Tailwind CSS
-JavaScript (Vanilla JS)
-Swiper.js
-ScrollReveal.js
-Remix Icons
-Google Fonts
+- HTML5
+- Tailwind CSS
+- JavaScript (Vanilla JS)
+- Swiper.js
+- ScrollReveal.js
+- Remix Icons
+- Google Fonts

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Tailwind Css -->
+    <link rel="stylesheet" href="dist/style.css">
+    <!-- Icons -->
+    <link rel="stylesheet" 
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.min.css">
+    <title>TesteCraft</title>
+    <!-- Fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!--Swiper Css -->
+     <link rel="stylesheet" href="/css/swiper-bundle.min.css">
+</head>
+<body class="bg-gray-100" id="body-container"> 
+    
+<!--header-->
+
+     <header class=" myheader sticky top-0 h-[90px] shadow-xl z-30 bg-white " >
+     <div class="container mx-auto flex justify-between h-full items-center">
+       <!--logo-->
+       <a href="#">
+        <img src="assets/TasteCraftLogo.png" alt="logo"  width="250" height="80">
+       </a>
+       <!--nav-->
+       <nav>
+
+        <!-- nav mobile trigger -->
+         <div class="cursor-pointer lg:hidden xl:hidden" id="nav_trigger_btn">
+            <i class="ri-menu-4-line text-4xl text-primary "></i>
+         </div>
+        <ul class="fixed w-full h-0 p-0 bg-white overflow-hidden border-t top-[90px] 
+        left-0 right-0 flex flex-col gap-4 lg:relative lg:flex-row 
+        lg:p-0 lg:top-0 lg:border-none lg:h-full transition-all duration-300"
+        id="nav_menu">
+            <li><a href="#hero-home">Home</a></li>
+            <li><a href="#suggestions">Suggestions</a></li>
+            <li><a href="#contact">Contact</a></li>
+
+
+        </ul>
+       </nav>
+     </div>
+     </header>
+
+    <div id="div-for-append"></div>
+
+    <!-- page wrapper-->
+     <main class="max-w-[1920px] mx-auto bg-white overflow-hidden">      <!-- عرضها ما يتجاوز 1920px
+                                                                                تكون في منتصف الصفحة
+                                                                                خلفيتها بيضاء
+                                                                                أي شيء يخرج خارجها يتم إخفاؤه-->
+
+       <!-- grid img -->
+             
+        <!-- <div class="bg-grid xl:bg-center xl:bg-repeat-y fixed top-0 bottom-0 left-0 right-0 z-10" id="grid-div" >
+
+        </div> -->
+       <!-- hero -->
+
+        <section class="hero h-[640px] xl:h-[840px] bg-hero bg-center lg:bg-cover bg-no-repeat bg-fixed xl:rounded-bl-[290px] relative z-20" id="hero-home">
+<!-- flex -->
+            <div class="container mx-auto h-full flex items-center text-center justify-center xl:justify-start">
+
+          <!-- text --> 
+                    <div class="hero__text w-[567px] flex flex-col items-center text-center 
+                    xl:text-left lg:items-start">
+                        
+                    <h1 class="h1 mb-8">
+                            Craft Flavorful Moments in Every Dish
+                    </h1>
+                    <p class="p mb-8">
+                            Find fresh ingredients, inspiring recipes, and everything you need to bring amazing flavors to your kitchen.
+                    </p>
+
+                    <!-- <button class="btn btn-primary mx-auto xl:mx-0">
+                        Explore Recipes
+                    <i class="ri-arrow-right-line text-accent"></i>
+
+                    </button> -->
+                
+
+                    </div>
+            </div>
+            
+        </section>
+
+      
+<!-- this the start of section for serach <div class="container mx-auto px-4 py-20 flex flex-col items-center gap-12">-->
+
+<!-- الحاوية الكبرى (الأب): عمودية لترتيب (البحث) فوق و (حاوية البطاقات) تحت -->
+<!-- الحاوية الكبرى (ترتيب عمودي لضمان البحث فوق والبطاقات تحت) -->
+
+
+
+
+
+
+<div class="container mx-auto px-4 py-20 flex flex-col items-center gap-16 bg-white min-h-[1000px]">
+
+  <!-- Search Section -->
+  <div class="text-center w-full max-w-2xl">
+     <h2 class="text-3xl font-bold mb-4 text-primary">Find Meals For Your Ingredients</h2>
+     <div class="flex w-full shadow-lg rounded-full overflow-hidden border border-primary">
+        <input type="text" id="ingredient-input" class="w-full px-6 py-4 outline-none" placeholder="Enter an ingredient (e.g., chicken, beef)" />
+        <button id="search-btn" class="bg-primary hover:bg-primary-hover text-white px-8 transition-all duration-300">
+          <i class="ri-search-line text-xl"></i>
+        </button>
+     </div>
+     <!-- <p class="text-sm text-gray-500 mt-2">Try: chicken, beef, salmon, rice...</p> -->
+  </div>
+
+  <!-- Loading Indicator -->
+  <div id="loading" class="hidden">
+    <div class="flex items-center gap-2 text-primary">
+      <i class="ri-loader-4-line animate-spin text-2xl"></i>
+      <span>Searching for recipes...</span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div id="error-message" class="hidden text-center">
+    <p class="text-red-500 text-lg"></p>
+  </div>
+
+  <!-- Cards Container - Grid with 3 columns -->
+  <div id="meals-container" class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Cards will be dynamically inserted here -->
+  </div>
+
+  <!-- Load More Button -->
+  <div id="load-more-container" class="hidden">
+    <button id="load-more-btn" class="bg-primary hover:bg-primary-hover text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 flex items-center gap-2">
+      <span>Load More</span>
+      <i class="ri-refresh-line"></i>
+    </button>
+  </div>
+
+</div>
+
+
+<!-- User Suggestions Section - Slider -->
+<section class="py-20 bg-gray-50" id="suggestions">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-4 text-primary">Meal Suggestions From Our Community</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Discover what other food lovers are recommending. These are the top meal suggestions from our community!</p>
+    </div>
+    
+    <!-- Suggestion Cards Slider -->
+    <div class="max-w-6xl mx-auto relative px-12">
+      <div class="swiper suggestionSwiper overflow-hidden">
+        <div class="swiper-wrapper pb-12">
+          
+          <!-- Card 1 -->
+          <div class="swiper-slide">
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
+              <div class="h-48 overflow-hidden">
+                <img src="assets/testimonial/Carbonada Criolla.jpg" alt="Spaghetti Carbonara" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <img src="assets/testimonial/01.png" alt="User" class="w-10 h-10 rounded-full object-cover">
+                  <div>
+                    <h4 class="font-semibold text-gray-800">Sarah Johnson</h4>
+                    <p class="text-xs text-gray-500">Food Enthusiast</p>
+                  </div>
+                </div>
+                <h3 class="font-bold text-lg text-primary mb-2">Carbonada Criolla</h3>
+                <p class="text-gray-600 text-sm mb-4">"This hearty Argentine treasure is the ultimate comfort in a bowl. A savory blend of tender beef, sweet apricots, and golden pumpkin, it offers a unique sweet-and-savory harmony that is truly unforgettable!"</p>
+                <div class="flex items-center justify-between">
+                  <span class="bg-secondary/10 text-secondary text-xs px-3 py-1 rounded-full">Italian</span>
+                  <div class="flex items-center gap-1 text-amber-500">
+                    <i class="ri-star-fill"></i>
+                    <span class="text-sm font-medium">4.9</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="swiper-slide">
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
+              <div class="h-48 overflow-hidden">
+                <img src="assets/testimonial/Salmon Avocado Salad.jpg" alt="Chicken Tikka Masala" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <img src="assets/testimonial/02.png" alt="User" class="w-10 h-10 rounded-full object-cover">
+                  <div>
+                    <h4 class="font-semibold text-gray-800">Ahmed Hassan</h4>
+                    <p class="text-xs text-gray-500">Home Chef</p>
+                  </div>
+                </div>
+                <h3 class="font-bold text-lg text-primary mb-2">Salmon Avocado Salad</h3>
+                <p class="text-gray-600 text-sm mb-4">"This refreshing British classic is a vibrant celebration of texture and zest. The pairing of crisp, pan-seared salmon with creamy avocado and a hint of honey-lime sweetness makes it a light yet satisfying masterpiece!"</p>
+                <div class="flex items-center justify-between">
+                  <span class="bg-secondary/10 text-secondary text-xs px-3 py-1 rounded-full">Indian</span>
+                  <div class="flex items-center gap-1 text-amber-500">
+                    <i class="ri-star-fill"></i>
+                    <span class="text-sm font-medium">4.8</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="swiper-slide">
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
+              <div class="h-48 overflow-hidden">
+                <img src="assets/testimonial/Chicken Alfredo Primavera.jpg" alt="Thai Green Curry" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <img src="assets/testimonial/03.png" alt="User" class="w-10 h-10 rounded-full object-cover">
+                  <div>
+                    <h4 class="font-semibold text-gray-800">Emily Chen</h4>
+                    <p class="text-xs text-gray-500">Recipe Blogger</p>
+                  </div>
+                </div>
+                <h3 class="font-bold text-lg text-primary mb-2">Chicken Alfredo Primavera</h3>
+                <p class="text-gray-600 text-sm mb-4">"This vibrant Italian-inspired delight is where creamy indulgence meets garden-fresh crunch. Featuring golden seared chicken and a rainbow of sautéed vegetables tossed in a silky, Parmesan-infused sauce, every bite is a rich and colorful celebration of flavor!"</p>
+                <div class="flex items-center justify-between">
+                  <span class="bg-secondary/10 text-secondary text-xs px-3 py-1 rounded-full">Thai</span>
+                  <div class="flex items-center gap-1 text-amber-500">
+                    <i class="ri-star-fill"></i>
+                    <span class="text-sm font-medium">4.7</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="swiper-slide">
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
+              <div class="h-48 overflow-hidden">
+                <img src="assets/testimonial/Sweet potato salad.jpg" alt="Beef Tacos" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <img src="assets/testimonial/04.png" alt="User" class="w-10 h-10 rounded-full object-cover">
+                  <div>
+                    <h4 class="font-semibold text-gray-800">Carlos Rodriguez</h4>
+                    <p class="text-xs text-gray-500">Taco Lover</p>
+                  </div>
+                </div>
+                <h3 class="font-bold text-lg text-primary mb-2">Sweet potato salad</h3>
+                <p class="text-gray-600 text-sm mb-4">"This vibrant Turkish-inspired dish is a beautiful balance of earthy sweetness and sharp elegance. Roasted to golden perfection and tossed in a silky honey-sherry glaze with fresh herbs, it’s a refreshing vegetarian gem that brightens up any table!" A family favorite!"</p>
+                <div class="flex items-center justify-between">
+                  <span class="bg-secondary/10 text-secondary text-xs px-3 py-1 rounded-full">Mexican</span>
+                  <div class="flex items-center gap-1 text-amber-500">
+                    <i class="ri-star-fill"></i>
+                    <span class="text-sm font-medium">4.9</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      
+      
+
+        </div>
+        
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+      
+      <!-- Navigation Buttons -->
+      <button class="suggestion-prev absolute left-0 top-[45%] -translate-y-1/2 z-10 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
+        <i class="ri-arrow-left-s-line text-2xl"></i>
+      </button>
+      <button class="suggestion-next absolute right-0 top-[45%] -translate-y-1/2 z-10 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
+        <i class="ri-arrow-right-s-line text-2xl"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- this the end of section for search-->
+
+
+<!-- <div class="max-w-sm rounded overflow-hidden shadow-lg relative z-30">
+
+  <div class="absolute inset-0 bg-grid opacity-20 pointer-events-none z-10"></div>
+
+  <img class="w-full h-100 relative z-0" src="assets/hero/bg2.jpg" alt="Sunset in the mountains">
+
+  <div class="px-6 py-4 relative z-20 bg-white">
+    <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
+    <p class="text-gray-700 text-base">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla!
+    </p>
+  </div>
+
+  <div class="px-6 pt-4 pb-2 relative z-20 bg-white">
+    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+  </div>
+
+</div> -->
+    
+
+</main>
+
+
+
+
+<!-- 
+<dialog class="container-div fixed inset-0 flex items-center justify-center "
+     style="z-index: 999999; background-color: rgb(0, 0, 0);">
+
+  <div class="flex flex-col items-center justify-center  w-full p-6 rounded-lg">
+   <div class="max-w-sm mx-auto rounded overflow-hidden shadow-lg relative z-20 bg-white w-full">
+  <img class="w-full h-100 rounded-r-full" src="assets/hero/bg2.jpg" alt="Sunset in the mountains"> -->
+  <!-- <div class="px-6 py-4 ">
+    <p class="text-gray-700 text-base text-center">
+The Item has been added to the cart!!!!!    </p>
+  </div>
+   <div class="px-6 pt-4 pb-2 flex justify-center">
+   <button class="btn1 inline-block bg-secondary rounded-full px-6 py-2 text-sm font-semibold text-white ">
+  Close
+</button>
+  </div>
+
+</div>
+
+
+   
+  </div>
+
+</dialog> -->
+
+
+
+<!-- <div class="w-full py-20 flex flex-col lg:flex-row justify-center items-center gap-6">
+
+  <div class="max-w-sm mx-auto rounded overflow-hidden shadow-lg relative z-20 bg-white">
+
+    <img class="w-full h-100 rounded-r-full"
+         src="assets/hero/bg4.jpg">
+
+    <div class="px-6 py-4">
+      <div class="font-bold text-xl mb-2">
+        The Coldest Sunset
+      </div>
+
+      <p class="text-gray-700 text-base">
+        Lorem ipsum dolor sit amet.
+      </p>
+    </div>
+
+    <div class="px-6 pt-4 pb-2 flex justify-end">
+
+      <button class="btn1 inline-block bg-secondary rounded-full px-6 py-2 text-sm font-semibold text-white">
+        Buy
+      </button>
+
+    </div>
+
+  </div>
+
+</div> -->
+
+
+<dialog id="myDialog" class="rounded-lg p-0">
+
+  <div class="flex flex-col items-center justify-center w-full p-6">
+
+    <div class="max-w-sm mx-auto rounded overflow-hidden shadow-lg bg-white w-full">
+
+      <div class="px-6 py-4">
+        <p class="text-gray-700 text-base text-center">
+          The Item has been added to the cart!!!!!
+        </p>
+      </div>
+
+      <div class="px-6 pt-4 pb-2 flex justify-center">
+
+        <button class="close-btn inline-block bg-secondary rounded-full px-6 py-2 text-sm font-semibold text-white">
+          Close
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</dialog>
+
+<!-- Footer -->
+<footer class="bg-white text-primary">
+  <div class="container mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      
+      <!-- Brand -->
+      <div class="flex flex-col gap-4">
+       <a href="#">
+        <img src="assets/TasteCraftLogo.png" alt="logo"  width="250" height="80">
+       </a>
+        <p class="text-primary text-sm leading-relaxed">
+          Discover delicious recipes, fresh ingredients, and culinary inspiration. Craft flavorful moments in every dish.
+        </p>
+        <div class="flex gap-4 mt-2">
+          <a href="#" class="w-10 h-10 bg-white/10 hover:bg-secondary rounded-full flex items-center justify-center transition-all">
+            <i class="ri-facebook-fill"></i>
+          </a>
+          <a href="#" class="w-10 h-10 bg-white/10 hover:bg-secondary rounded-full flex items-center justify-center transition-all">
+            <i class="ri-instagram-line"></i>
+          </a>
+          <a href="#" class="w-10 h-10 bg-white/10 hover:bg-secondary rounded-full flex items-center justify-center transition-all">
+            <i class="ri-twitter-x-line"></i>
+          </a>
+          <a href="#" class="w-10 h-10 bg-white/10 hover:bg-secondary rounded-full flex items-center justify-center transition-all">
+            <i class="ri-youtube-line"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-lg font-bold mb-6">Quick Links</h4>
+        <ul class="flex flex-col gap-3">
+          <li><a href="#" class="text-primary hover:text-secondary transition-all">Home</a></li>
+          <li><a href="#" class="text-primary hover:text-secondary transition-all">Suggestions</a></li>
+          <li><a href="#" class="text-primary hover:text-secondary transition-all">Contact</a></li>
+        </ul>
+      </div>
+      
+      <!-- Categories -->
+      <div>
+        <h4 class="text-lg font-bold mb-6">Categories</h4>
+        <ul class="flex flex-col gap-3">
+          <li><a href="#" class="text-primary hover:text-secondary transition-all">Breakfast</a></li>
+          <li><a href="#" class="text-primary hover:text-secondary transition-all">Lunch</a></li>
+          <li><a href="#" class="text-primary hover:text-secondary transition-all">Dinner</a></li>
+          <li><a href="#" class="text-primary hover:text-secondary transition-all">Healthy</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact Info -->
+      <div id="contact">
+        <h4 class="text-lg font-bold mb-6">Contact Us</h4>
+        <ul class="flex flex-col gap-4">
+          <li class="flex items-center gap-3">
+            <i class="ri-map-pin-line text-secondary"></i>
+            <span class="text-primary">Taif, Saudi Arabia</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <i class="ri-phone-line text-secondary"></i>
+            <span class="text-primary">+966 542425334</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <i class="ri-mail-line text-secondary"></i>
+            <span class="text-primary/80">amjadmokhu100@gmail.com</span>
+          </li>
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+  
+  <!-- Bottom Bar -->
+  <div class="border-t border-white/10">
+    <div class="container mx-auto px-4 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-white/60 text-sm">2024 TasteCraft. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="#" class="text-white/60 hover:text-white text-sm transition-all">Privacy Policy</a>
+          <a href="#" class="text-white/60 hover:text-white text-sm transition-all">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    <!-- Scroll Reveal Js -->
+    <script src="js/scrollreveal.min.js"></script>
+    <!-- Swiper js -->
+    <script src="js/swiper-bundle.min.js"></script>
+
+    <!-- Main js -->
+    <script src="js/main.js"></script>
+
+
+</body>
+</html>

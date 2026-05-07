@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"postcss css/style.css -o dist/style.css --watch\" \"npx serve -l 3000\"",
+    "build": "postcss css/style.css -o dist/style.css",
+    "watch": "postcss css/style.css -o dist/style.css --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.5.10",
+    "postcss-cli": "^11.0.1",
+    "serve": "^14.2.1",
+    "tailwindcss": "^4.2.4"
+  }
+}
